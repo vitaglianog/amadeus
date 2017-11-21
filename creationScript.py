@@ -17,7 +17,7 @@ for line in rows:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
 print "finished acquiring dataset"
-features=agent.featureExtract(songs);	
+(features,names)=agent.featureExtract(songs);	
 print "finished scaling"
 n_clusters=8;
 centroids = agent.clustering(features,n_clusters);
@@ -27,13 +27,13 @@ print "finished clustering: centroids"
 #print centroids
 
 prob=[];
-for song in features[:10]:
+for song in features:
 	prob.append(agent.dist2prob(song,centroids));
 
 #print "probabilities computed (first 10):"
 #print prob[:10];
 
-model= agent.createModel(prob);
+model= agent.createModel(prob,names);
 #save python object
 f = open('model.pckl', 'wb')
 pickle.dump(model, f)

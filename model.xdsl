@@ -13,107 +13,107 @@
 			<state id="c7" />
 			<state id="c8" />
 			<!-- setting probabilities -->
-			<probabilities>0 0 0 0 0 0 0 1.0 </probabilities>
+			<probabilities>0.129757165082 0.100573092656 0.116557391663 0.103104312455 0.132661890279 0.108328578981 0.12732903649 0.181688532395 </probabilities>
 		</cpt>
-		<!-- create node "song0" -->
-		<cpt id="song0" >
+		<!-- create node "song #1Hotel Yorba (Album Version)" -->
+		<cpt id="song_#1Hotel_Yorba_(Album_Version)" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.202363246494 0.797636753506 0.0881270573199 0.91187294268 0.107935200701 0.892064799299 0.150241674211 0.849758325789 0.101535178731 0.898464821269 0.112307793171 0.887692206829 0.126537330026 0.873462669974 0.110952519347 0.889047480653 </probabilities>
+			<probabilities>0.110323063851 0.889676936149 0.183539670901 0.816460329099 0.111800266338 0.888199733662 0.129334078037 0.870665921963 0.106806579226 0.893193420774 0.091332000567 0.908667999433 0.15115627494 0.84884372506 0.115708066139 0.884291933861 </probabilities>
 		</cpt>
-		<!-- create node "song1" -->
-		<cpt id="song1" >
+		<!-- create node "song #2Dream Police" -->
+		<cpt id="song_#2Dream_Police" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.199848076702 0.800151923298 0.0793194752098 0.92068052479 0.100654339231 0.899345660769 0.193739149063 0.806260850937 0.0832914771701 0.91670852283 0.102627628297 0.897372371703 0.0994961554684 0.900503844532 0.141023698859 0.858976301141 </probabilities>
+			<probabilities>0.101457760824 0.898542239176 0.220653953476 0.779346046524 0.100690753192 0.899309246808 0.100053853265 0.899946146735 0.0869913843453 0.913008615655 0.0799845496435 0.920015450357 0.152477448934 0.847522551066 0.15769029632 0.84230970368 </probabilities>
 		</cpt>
-		<!-- create node "song2" -->
-		<cpt id="song2" >
+		<!-- create node "song #3ANTS MARCHING (Live Acoustic)" -->
+		<cpt id="song_#3ANTS_MARCHING_(Live_Acoustic)" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.0897821113357 0.910217888664 0.0893809787666 0.910619021233 0.315766730507 0.684233269493 0.125567244503 0.874432755497 0.0985437838304 0.90145621617 0.0963981338157 0.903601866184 0.0817479699955 0.918252030005 0.102813047247 0.897186952753 </probabilities>
+			<probabilities>0.292020399519 0.707979600481 0.119783683815 0.880216316185 0.100904713699 0.899095286301 0.0845482925596 0.91545170744 0.0984681159113 0.901531884089 0.109241815734 0.890758184266 0.0829375454434 0.917062454557 0.112095433319 0.887904566681 </probabilities>
 		</cpt>
-		<!-- create node "song3" -->
-		<cpt id="song3" >
+		<!-- create node "song #4Adive From the Angel of Thresholds" -->
+		<cpt id="song_#4Adive_From_the_Angel_of_Thresholds" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.108050276716 0.891949723284 0.145179598618 0.854820401382 0.13456463566 0.86543536434 0.106533788011 0.893466211989 0.151524788812 0.848475211188 0.118159736458 0.881840263542 0.142897646096 0.857102353904 0.0930895296285 0.906910470371 </probabilities>
+			<probabilities>0.128376815647 0.871623184353 0.108054267315 0.891945732685 0.117673438023 0.882326561977 0.146386622913 0.853613377087 0.14397428402 0.85602571598 0.156808865201 0.843191134799 0.104488543405 0.895511456595 0.094237163476 0.905762836524 </probabilities>
 		</cpt>
-		<!-- create node "song4" -->
-		<cpt id="song4" >
+		<!-- create node "song #5Stoned Out Of My Mind" -->
+		<cpt id="song_#5Stoned_Out_Of_My_Mind" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.136374038649 0.863625961351 0.0812700026432 0.918729997357 0.134676073605 0.865323926395 0.254181968746 0.745818031254 0.0881022017115 0.911897798288 0.113072324152 0.886927675848 0.0908940527483 0.909105947252 0.101429337745 0.898570662255 </probabilities>
+			<probabilities>0.12682199509 0.87317800491 0.291848501493 0.708151498507 0.111106528362 0.888893471638 0.0894567113966 0.910543288603 0.0868943695702 0.91310563043 0.0851999150649 0.914800084935 0.0969624465353 0.903037553465 0.111709532488 0.888290467512 </probabilities>
 		</cpt>
-		<!-- create node "song5" -->
-		<cpt id="song5" >
+		<!-- create node "song #6Clair de Lune" -->
+		<cpt id="song_#6Clair_de_Lune" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.0892238000272 0.910776199973 0.250205499864 0.749794500136 0.108175972856 0.891824027144 0.120622726196 0.879377273804 0.10964608951 0.89035391049 0.125388221965 0.874611778035 0.102568591357 0.897431408643 0.0941690982251 0.905830901775 </probabilities>
+			<probabilities>0.105958479027 0.894041520973 0.114123749096 0.885876250904 0.141816845932 0.858183154068 0.109679810863 0.890320189137 0.111403489338 0.888596510662 0.216902796679 0.783097203321 0.0888668932933 0.911133106707 0.111247935772 0.888752064228 </probabilities>
 		</cpt>
-		<!-- create node "song6" -->
-		<cpt id="song6" >
+		<!-- create node "song #7" -->
+		<cpt id="song_#7" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.101938745031 0.898061254969 0.0899325796953 0.910067420305 0.0968620388183 0.903137961182 0.18533465504 0.81466534496 0.0954211933553 0.904578806645 0.158244951789 0.841755048211 0.0861610050483 0.913838994952 0.186104831224 0.813895168776 </probabilities>
+			<probabilities>0.0931936666198 0.90680633338 0.137135414122 0.862864585878 0.153286190362 0.846713809638 0.0796987816951 0.920301218305 0.0935393663392 0.906460633661 0.0815724968674 0.918427503133 0.0995541387816 0.900445861218 0.262019945213 0.737980054787 </probabilities>
 		</cpt>
-		<!-- create node "song7" -->
-		<cpt id="song7" >
+		<!-- create node "song #8Guinnevere" -->
+		<cpt id="song_#8Guinnevere" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.140104130885 0.859895869115 0.167125210185 0.832874789815 0.115904546467 0.884095453533 0.117348694794 0.882651305206 0.0957138464808 0.904286153519 0.146339694013 0.853660305987 0.105980996322 0.894019003678 0.111482880854 0.888517119146 </probabilities>
+			<probabilities>0.114262907926 0.885737092074 0.123155279391 0.876844720609 0.14378206054 0.85621793946 0.110561974056 0.889438025944 0.0965717034631 0.903428296537 0.143575730955 0.856424269045 0.154858969697 0.845141030303 0.113231373972 0.886768626028 </probabilities>
 		</cpt>
-		<!-- create node "song8" -->
-		<cpt id="song8" >
+		<!-- create node "song #9Heaven's the Place" -->
+		<cpt id="song_#9Heaven's_the_Place" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.114670164897 0.885329835103 0.0874549666639 0.912545033336 0.240922411464 0.759077588536 0.118922079317 0.881077920683 0.105359705882 0.894640294118 0.105447864387 0.894552135613 0.0929523863662 0.907047613634 0.134270421022 0.865729578978 </probabilities>
+			<probabilities>0.268327866798 0.731672133202 0.1144583272 0.8855416728 0.0983085046775 0.901691495323 0.0894947085144 0.910505291486 0.10150491119 0.89849508881 0.0936126824277 0.906387317572 0.112269943789 0.887730056211 0.122023055404 0.877976944596 </probabilities>
 		</cpt>
-		<!-- create node "song9" -->
-		<cpt id="song9" >
+		<!-- create node "song #10Maps" -->
+		<cpt id="song_#10Maps" >
 			<!-- setting names of outcomes -->
 			<state id="recommended" />
 			<state id="notRecommended" />
 			<!-- add arcs -->
 			<parents>clusterPredict </parents>
 			<!-- setting probabilities -->
-			<probabilities>0.195177644997 0.804822355003 0.0774567134325 0.922543286568 0.0958582177086 0.904141782291 0.185245969462 0.814754030538 0.0924318443205 0.90756815568 0.129155210043 0.870844789957 0.106174019837 0.893825980163 0.1185003802 0.8814996198 </probabilities>
+			<probabilities>0.0964853299049 0.903514670095 0.229127642973 0.770872357027 0.122528934817 0.877471065183 0.103444543273 0.896555456727 0.0960405335019 0.903959466498 0.0763574430375 0.923642556962 0.150743952194 0.849256047806 0.125271620298 0.874728379702 </probabilities>
 		</cpt>
 	</nodes>
 	<extensions>
@@ -126,80 +126,80 @@
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song0">
-				<name>song0</name>
+			<node id="song_#1Hotel_Yorba_(Album_Version)">
+				<name>song #1Hotel Yorba (Album Version)</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song1">
-				<name>song1</name>
+			<node id="song_#2Dream_Police">
+				<name>song #2Dream Police</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song2">
-				<name>song2</name>
+			<node id="song_#3ANTS_MARCHING_(Live_Acoustic)">
+				<name>song #3ANTS MARCHING (Live Acoustic)</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song3">
-				<name>song3</name>
+			<node id="song_#4Adive_From_the_Angel_of_Thresholds">
+				<name>song #4Adive From the Angel of Thresholds</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song4">
-				<name>song4</name>
+			<node id="song_#5Stoned_Out_Of_My_Mind">
+				<name>song #5Stoned Out Of My Mind</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song5">
-				<name>song5</name>
+			<node id="song_#6Clair_de_Lune">
+				<name>song #6Clair de Lune</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song6">
-				<name>song6</name>
+			<node id="song_#7">
+				<name>song #7</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song7">
-				<name>song7</name>
+			<node id="song_#8Guinnevere">
+				<name>song #8Guinnevere</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song8">
-				<name>song8</name>
+			<node id="song_#9Heaven's_the_Place">
+				<name>song #9Heaven's the Place</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />
 				<position>0 0 125 65</position>
 				<barchart active="true" width="125" height="65" />
 			</node>
-			<node id="song9">
-				<name>song9</name>
+			<node id="song_#10Maps">
+				<name>song #10Maps</name>
 				<interior color="e5f6f7" />
 				<outline color="0000bb" />
 				<font color="000000" name="Arial" size="8" />

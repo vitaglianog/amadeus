@@ -20,6 +20,7 @@ from sklearn.preprocessing import scale, StandardScaler
 
 def featureExtract(songs,scaling=1):
 	features=numpy.matrix([1]*7)
+	names=[];
 	for songpath in songs:
 		songidx = 0
 		# sanity check
@@ -40,6 +41,7 @@ def featureExtract(songs,scaling=1):
 		row_features[4]=hdf5_getters.get_song_hotttnesss(h5);
 		row_features[5]=hdf5_getters.get_tempo(h5);
 		row_features[6]=hdf5_getters.get_time_signature(h5);
+		names.append(hdf5_getters.get_title(h5));
 	#	row_features[7]=hdf5_getters.get_year(h5);
 		features=numpy.vstack([features,row_features[0:7]]);	
 		h5.close()
@@ -47,7 +49,7 @@ def featureExtract(songs,scaling=1):
 	features = numpy.delete(features, (0), axis=1)
 	if scaling:
 		features=scale(features)
-	return features
+	return (features,names)
 
 # Affinity_Propagation and K-means
 
@@ -105,7 +107,7 @@ def dist2prob(featureVector,clusters):
 		prob[idx]=p/total_prob;
 	return prob
 	
-def createModel(probabilities):
+def createModel(probabilities,names):
 	model=Network('SongRecommender');
 	clusterPredict=Node('clusterPredict');
 	clusterPredict.addOutcomes(['c1','c2','c3','c4','c5','c6','c7','c8']);
@@ -115,7 +117,7 @@ def createModel(probabilities):
 	arc_nodes=[];
 	i=0;
 	for p in probabilities:
-		n=Node('song'+str(i))
+		n=Node('song #'+str(i+1)+names[i])
 		n.addOutcomes(['recommended','notRecommended'])
 		tmp=[];
 		for value in p:
@@ -128,9 +130,6 @@ def createModel(probabilities):
 		song_nodes.append(n);
 		arc_nodes.append(a);
 		i=i+1;
-		print 'finish iteration ' + str(i)
-		print 'tmp(' +str(i)+')'
-		print tmp
 	return model
 
 

@@ -16,24 +16,25 @@ songs=[];
 for line in rows[:10]:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
-features=agent.featureExtract(songs,0);
+(features,names)=agent.featureExtract(songs,0);
+print "You have listened these songs: "
+print names
 feat_row=numpy.transpose(features);	
 prob=[];
 mean_features=[];
-
 for f in feat_row:
-	print f
-	print "mean"
-	print numpy.mean(f)
-	print '\n'
 	mean_features.append(numpy.mean(f));	
 
 centroids=numpy.loadtxt('centroids.txt')
 mean_features=scale(mean_features);
 prob=agent.dist2prob(mean_features,centroids);
+
+print "Loading bayesian module..."
 m_file= open('model.pckl', 'rb')
 model = pickle.load(m_file)
 m_file.close()
+
+print "Updating bayesian module..."
 model=agent.updateModel(model,prob);
 #save python object
 f = open('/home/gerardo/Scrivania/AI_Project/amadeus/model.pckl', 'wb')
@@ -43,6 +44,3 @@ f.close()
 model.writeFile('model.xdsl');
 
 #agent.predict([]);
-print prob	
-
-
