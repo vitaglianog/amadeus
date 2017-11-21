@@ -3,6 +3,7 @@ import sys
 import hdf5_getters
 import numpy
 import agent
+import pickle
 
 from sklearn.preprocessing import scale
 
@@ -17,23 +18,29 @@ for line in rows:
 
 print "finished acquiring dataset"
 features=agent.featureExtract(songs);	
-data=scale(features)
 print "finished scaling"
 n_clusters=8;
-centroids = agent.clustering(data,n_clusters);
+centroids = agent.clustering(features,n_clusters);
+numpy.savetxt('centroids.txt', centroids)
 #print labels
 print "finished clustering: centroids"
 #print centroids
 
 prob=[];
-for song in data[:10]:
+for song in features[:10]:
 	prob.append(agent.dist2prob(song,centroids));
 
 #print "probabilities computed (first 10):"
-print prob[:10];
+#print prob[:10];
 
 model= agent.createModel(prob);
+#save python object
+f = open('model.pckl', 'wb')
+pickle.dump(model, f)
+f.close()
+
+#save genie file
+model.writeFile('model.xdsl');
+
 print "Bayesian Network created"
-
-
 print 'finished correctly'

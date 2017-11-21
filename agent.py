@@ -1,6 +1,8 @@
 import os
 import numpy
 import hdf5_getters
+import pickle
+
 from operations import *
 from network import *
 
@@ -16,7 +18,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, StandardScaler
 
 
-def featureExtract(songs):
+def featureExtract(songs,scaling=1):
 	features=numpy.matrix([1]*7)
 	for songpath in songs:
 		songidx = 0
@@ -43,6 +45,8 @@ def featureExtract(songs):
 		h5.close()
 	features = numpy.delete(features, (0), axis=0)
 	features = numpy.delete(features, (0), axis=1)
+	if scaling:
+		features=scale(features)
 	return features
 
 # Affinity_Propagation and K-means
@@ -61,7 +65,6 @@ def af_prop_km_clustering(data):
 	kmeans=kmeans.fit(data);
 	labels = kmeans.labels_
 	centroids = kmeans.cluster_centers_
-
 	print n_clusters_
 	return centroids
 
@@ -128,13 +131,12 @@ def createModel(probabilities):
 		print 'finish iteration ' + str(i)
 		print 'tmp(' +str(i)+')'
 		print tmp
-	
-	model.writeFile('model.xdsl');
 	return model
 
 
-def updateModel():
-	return 0
+def updateModel(model,prob):
+	model.setNodeProbability('clusterPredict',prob)
+	return model
 	
 def predict(model):
 	return 0

@@ -37,6 +37,11 @@ class Network(object):
     """
     for node in nodes:
       self.addNode(node)
+      
+  def setNodeProbability(self,name,values):
+      for i in range(len(self.nodes)):
+		  if name == str(self.nodes[i]):
+			self.nodes[i].setProbabilities(values)
 
   def setEvidence(self,name,value):
     """Set evidence for a Node element
