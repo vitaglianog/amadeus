@@ -1,6 +1,7 @@
 import os
 import numpy
 import hdf5_getters
+import pyBN
 from sklearn import metrics
 from sklearn import cluster
 from sklearn.cluster import KMeans
@@ -66,7 +67,14 @@ def dist2prob(featureVector,clusters):
 		prob[idx]=p/total_prob;
 	return prob
 	
+def createModel(probabilities):
+	model=pyBN.Network('SongRecommender');
+	Fu=node('Fu');
+	Fu.addOutcome(['yes','no'])
 	
+	return model
+
+
 def updateModel():
 	return 0
 	
