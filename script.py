@@ -13,6 +13,8 @@ features=agent.featureExtract(ds_path);
 data=scale(features)
 n_clusters=8;
 centroids = agent.clustering(data,n_clusters);
+centroids1 = agent.meanshift_clustering(data);
+centroids2 = agent.af_prop_km_clustering(data);
 #print labels
 print centroids
 
