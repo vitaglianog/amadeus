@@ -114,11 +114,14 @@ def dist2prob(featureVector,clusters):
 		prob[idx]=p/total_prob;
 	return prob
 	
-def createModel(probabilities,names):
+def createModel(probabilities,names, centroids):
 	model=Network('SongRecommender');
 	clusterPredict=Node('clusterPredict');
-	clusterPredict.addOutcomes(['c1','c2','c3','c4','c5','c6','c7','c8']);
-	clusterPredict.setProbabilities([0.125]*8)
+	k=1
+	for i in centroids:
+		clusterPredict.addOutcome('c'+str(k));                                                 
+		k=k+1                                                                                  
+	clusterPredict.setProbabilities([1/len(centroids)]*len(centroids)) 
 	model.addNode(clusterPredict);
 	song_nodes=[];
 	arc_nodes=[];

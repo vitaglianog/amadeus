@@ -31,7 +31,7 @@ for song in features:
 	prob.append(agent.dist2prob(song,centroids));
 
 names=agent.songNames(songs);
-model= agent.createModel(prob,names);
+model= agent.createModel(prob,names, centroids);
 #save python object
 f = open('model.pckl', 'wb')
 pickle.dump(model, f)

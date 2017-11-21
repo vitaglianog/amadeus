@@ -52,7 +52,7 @@ for i in ind_recomm:
 	print names[i]
 
 #save python object
-f = open('/home/gerardo/Scrivania/AI_Project/amadeus/model.pckl', 'wb')
+f = open('/home/snunes/Documents/amadeus/model.pckl', 'wb')
 pickle.dump(model, f)
 f.close()
 #save genie file
