@@ -8,16 +8,25 @@ from sklearn.preprocessing import scale
 
 ds_path='cal500/data/';
 #numpy.savetxt('features.txt', features)
-#print "finished acquiring dataset"
+print "finished acquiring dataset"
 features=agent.featureExtract(ds_path);	
 data=scale(features)
+print "finished scaling"
 n_clusters=8;
 centroids = agent.clustering(data,n_clusters);
 #print labels
-print centroids
+print "finished clustering: centroids"
+#print centroids
 
+prob=[];
 for song in data[:10]:
-	prob=agent.dist2prob(song,centroids);
-	print prob;
+	prob.append(agent.dist2prob(song,centroids));
+
+#print "probabilities computed (first 10):"
+print prob[:10];
+
+model= agent.createModel(prob);
+print "Bayesian Network created"
+
 
 print 'finished correctly'

@@ -1,7 +1,9 @@
 import os
 import numpy
 import hdf5_getters
-import pyBN
+from operations import *
+from network import *
+
 from sklearn import metrics
 from sklearn import cluster
 from sklearn.cluster import KMeans
@@ -68,10 +70,33 @@ def dist2prob(featureVector,clusters):
 	return prob
 	
 def createModel(probabilities):
-	model=pyBN.Network('SongRecommender');
-	Fu=node('Fu');
-	Fu.addOutcome(['yes','no'])
+	model=Network('SongRecommender');
+	clusterPredict=Node('clusterPredict');
+	clusterPredict.addOutcomes(['c1','c2','c3','c4','c5','c6','c7','c8']);
+	clusterPredict.setProbabilities([0.125]*8)
+	model.addNode(clusterPredict);
+	song_nodes=[];
+	arc_nodes=[];
+	i=0;
+	for p in probabilities:
+		n=Node('song'+str(i))
+		n.addOutcomes(['recommended','notRecommended'])
+		tmp=[];
+		for value in p:
+			tmp.append(value)
+			tmp.append(1-value)
+			
+		n.setProbabilities(tmp)
+		a=Arc(clusterPredict,n);
+		model.addNode(n);		
+		song_nodes.append(n);
+		arc_nodes.append(a);
+		i=i+1;
+		print 'finish iteration ' + str(i)
+		print 'tmp(' +str(i)+')'
+		print tmp
 	
+	model.writeFile('model.xdsl');
 	return model
 
 
