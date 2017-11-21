@@ -16,7 +16,8 @@ centroids = agent.clustering(data,n_clusters);
 #print labels
 print centroids
 
-for song in data[]:
+for song in data[:10]:
 	prob=agent.dist2prob(song,centroids);
+	print prob;
 
 print 'finished correctly'
