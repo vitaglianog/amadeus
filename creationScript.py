@@ -8,8 +8,15 @@ from sklearn.preprocessing import scale
 
 ds_path='cal500/data/';
 #numpy.savetxt('features.txt', features)
+lst=open(ds_path + "list.txt",'r') 
+rows = lst.readlines()
+lst.close;
+songs=[];
+for line in rows:
+	songs.append(os.path.join(ds_path, line[:-1]))
+
 print "finished acquiring dataset"
-features=agent.featureExtract(ds_path);	
+features=agent.featureExtract(songs);	
 data=scale(features)
 print "finished scaling"
 n_clusters=8;

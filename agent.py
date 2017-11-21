@@ -14,25 +14,20 @@ from sklearn.preprocessing import scale
 from sklearn.preprocessing import StandardScaler
 
 
-def featureExtract(ds_path):
-	lst=open(ds_path + "list.txt",'r') 
-	rows = lst.readlines()
-	lst.close;
+def featureExtract(songs):
 	features=numpy.matrix([1]*7)
-	for line in rows:
-		hdf5path = os.path.join(ds_path, line[:-1])
+	for songpath in songs:
 		songidx = 0
-		onegetter = ''
 		# sanity check
-		if not os.path.exists(hdf5path):
-			print ('ERROR: file ' + hdf5path +'does not exist.')
-			sys.exit(0)
-		h5 = hdf5_getters.open_h5_file_read(hdf5path)
-		numSongs = hdf5_getters.get_num_songs(h5)
-		if songidx >= numSongs:
-			print('ERROR: file contains only ' + numSongs)
-			h5.close()
-			sys.exit(0)
+		#if not os.path.exists(hdf5path):
+			#print ('ERROR: file ' + hdf5path +'does not exist.')
+			#sys.exit(0)
+		h5 = hdf5_getters.open_h5_file_read(songpath)
+		#numSongs = hdf5_getters.get_num_songs(h5)
+		#if songidx >= numSongs:
+			#print('ERROR: file contains only ' + numSongs)
+			#h5.close()
+			#sys.exit(0)
 		row_features=['']*8;
 		row_features[0]=hdf5_getters.get_danceability(h5);
 		row_features[1]=hdf5_getters.get_key(h5)*hdf5_getters.get_key_confidence(h5);
