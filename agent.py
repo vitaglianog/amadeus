@@ -19,11 +19,16 @@ from sklearn.preprocessing import scale, StandardScaler
 
 
 def songNames(songs):
-	names=[];
-	for songpath in songs:
-		h5 = hdf5_getters.open_h5_file_read(songpath)
-		names.append(hdf5_getters.get_title(h5));
-		h5.close()	
+	if(numpy.size(songs)>1):
+		names=[];
+		for songpath in songs:
+			h5 = hdf5_getters.open_h5_file_read(songpath)
+			names.append(hdf5_getters.get_title(h5));
+			h5.close()
+	elif(numpy.size(songs)==1):
+		h5 = hdf5_getters.open_h5_file_read(songs)
+		names=hdf5_getters.get_title(h5);
+		h5.close()
 	return names
 
 
@@ -121,7 +126,7 @@ def createModel(probabilities,names, centroids):
 	for i in centroids:
 		clusterPredict.addOutcome('c'+str(k));                                                 
 		k=k+1                                                                                  
-	clusterPredict.setProbabilities([1/len(centroids)]*len(centroids)) 
+	clusterPredict.setProbabilities([1./len(centroids)]*len(centroids)) 
 	model.addNode(clusterPredict);
 	song_nodes=[];
 	arc_nodes=[];
@@ -143,11 +148,23 @@ def createModel(probabilities,names, centroids):
 	return model
 
 
-def updateModel(model,prob):
-	model.setNodeProbability('clusterPredict',prob)
-	return model
-	
-def predict(model):
+def predict(model, songs):
+
+	features=featureExtract(songs,0);
+	feat_row=numpy.transpose(features);	
+	prob=[];
+	mean_features=[];
+	for f in feat_row:
+		mean_features.append(numpy.mean(f));	
+		
+	centroids=numpy.loadtxt('centroids.txt')
+	mean_features=scale(mean_features);
+	prob=dist2prob(mean_features,centroids);
+
+	print "\nUpdating bayesian module...\n"
+	model.setNodeProbability('clusterPredict11',prob)
+
+	#Actual Prediction
 	nodes=model.getNodes()
 	n_max=[];
 	for n in nodes:

@@ -13,47 +13,22 @@ lst=open(ds_path + "list.txt",'r')
 rows = lst.readlines()
 lst.close;
 songs=[];
-for line in rows[50:60]:
+for line in rows:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
-features=agent.featureExtract(songs,0);
-names=agent.songNames(songs);
+names=agent.songNames(songs[30:40]);
+print "\nWelcome to Amadeus:\n You have listened these songs: \n"
+for n in names:
+	print n
 
-print "You have listened these songs: "
-print names
-
-feat_row=numpy.transpose(features);	
-prob=[];
-mean_features=[];
-for f in feat_row:
-	mean_features.append(numpy.mean(f));	
-
-centroids=numpy.loadtxt('centroids.txt')
-mean_features=scale(mean_features);
-prob=agent.dist2prob(mean_features,centroids);
-
-print "Loading bayesian module..."
+print "\nLoading bayesian module...\n"
 m_file= open('model.pckl', 'rb')
 model = pickle.load(m_file)
 m_file.close()
 
-print "Updating bayesian module..."
-model=agent.updateModel(model,prob);
+print "\nAmadeus is computing your recommendations...\n"
+ind_recomm=agent.predict(model,songs[30:40]);
 
-#perform prediction
-ind_recomm=agent.predict(model);
-print "Computing recommendation..."
-
-for line in rows:
-	songs.append(os.path.join(ds_path, line[:-1]))
-names=agent.songNames(songs);
-print "Recommended songs:"
+print "\nRecommended songs:\n"
 for i in ind_recomm:
-	print names[i]
-
-#save python object
-f = open('/home/snunes/Documents/amadeus/model.pckl', 'wb')
-pickle.dump(model, f)
-f.close()
-#save genie file
-model.writeFile('model.xdsl');
+	print agent.songNames(songs[i])
