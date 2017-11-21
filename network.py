@@ -20,6 +20,15 @@ class Network(object):
 
   def __str__(self):
     return self.name
+    
+  def getName(self):
+	return self.name
+	
+  def getNodes(self):
+	n=[];
+	for node in self.nodes:
+		n.append(node)
+	return n
 
   def addNode(self, node):
     """Add one node to the network
@@ -354,6 +363,8 @@ class Node(object):
     self.probabilities = probabilities
     self.val = self.transformProbabilities()
     self.beliefs = probabilities
+    
+    
 
   def transformProbabilities(self):
     """Transform the probabilities for the node

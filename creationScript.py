@@ -17,7 +17,7 @@ for line in rows:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
 print "finished acquiring dataset"
-(features,names)=agent.featureExtract(songs);	
+features=agent.featureExtract(songs);	
 print "finished scaling"
 n_clusters=8;
 centroids = agent.clustering(features,n_clusters);
@@ -30,9 +30,7 @@ prob=[];
 for song in features:
 	prob.append(agent.dist2prob(song,centroids));
 
-#print "probabilities computed (first 10):"
-#print prob[:10];
-
+names=agent.songNames(songs);
 model= agent.createModel(prob,names);
 #save python object
 f = open('model.pckl', 'wb')

@@ -13,12 +13,15 @@ lst=open(ds_path + "list.txt",'r')
 rows = lst.readlines()
 lst.close;
 songs=[];
-for line in rows[:10]:
+for line in rows[50:60]:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
-(features,names)=agent.featureExtract(songs,0);
+features=agent.featureExtract(songs,0);
+names=agent.songNames(songs);
+
 print "You have listened these songs: "
 print names
+
 feat_row=numpy.transpose(features);	
 prob=[];
 mean_features=[];
@@ -36,11 +39,21 @@ m_file.close()
 
 print "Updating bayesian module..."
 model=agent.updateModel(model,prob);
+
+#perform prediction
+ind_recomm=agent.predict(model);
+print "Computing recommendation..."
+
+for line in rows:
+	songs.append(os.path.join(ds_path, line[:-1]))
+names=agent.songNames(songs);
+print "Recommended songs:"
+for i in ind_recomm:
+	print names[i]
+
 #save python object
 f = open('/home/gerardo/Scrivania/AI_Project/amadeus/model.pckl', 'wb')
 pickle.dump(model, f)
 f.close()
 #save genie file
 model.writeFile('model.xdsl');
-
-#agent.predict([]);
