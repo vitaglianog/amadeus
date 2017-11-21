@@ -8,12 +8,10 @@ from sklearn import metrics
 from sklearn import cluster
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
-import pyBN
-from sklearn import metrics, cluster
-from sklearn.cluster import MeanShift, estimate_bandwidth, AffinityPropagation, KMeans, DBSCAN
 from sklearn.datasets import load_digits
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import scale, StandardScaler
+from sklearn.preprocessing import scale
+from sklearn.preprocessing import StandardScaler
 
 
 def featureExtract(songs):
@@ -45,43 +43,7 @@ def featureExtract(songs):
 	features = numpy.delete(features, (0), axis=1)
 	return features
 
-# Affinity_Propagation and K-means
-
-def af_prop_km_clustering(data):
-	af = AffinityPropagation(preference=-50).fit(data)
-	cluster_centers_indices = af.cluster_centers_indices_
-	labels = af.labels_
-
-	n_clusters_ = len(cluster_centers_indices)
-	
-	n_samples, n_features = data.shape
-	n_songs = len(data)
-	sample_size = 300
-	kmeans=cluster.KMeans(n_clusters_).fit(data);
-	kmeans=kmeans.fit(data);
-	labels = kmeans.labels_
-	centroids = kmeans.cluster_centers_
-
-	print n_clusters_
-	return centroids
-
-def meanshift_clustering(data):
-	# The following bandwidth can be automatically detected using
-	# We can change the number of samples in each cluster
-	bandwidth = estimate_bandwidth(data, quantile=0.2, n_samples=100)
-
-	ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)
-	ms.fit(data)
-	labels = ms.labels_
-	centroids = ms.cluster_centers_
-
-	labels_unique = numpy.unique(labels)
-	n_clusters_ = len(labels_unique)
-	print n_clusters_
-	return centroids
-
-
-def clustering(data, n_clusters):
+def clustering(data,n_clusters):
 	n_samples, n_features = data.shape
 	n_songs = len(data)
 	sample_size = 300

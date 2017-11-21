@@ -1,6 +1,7 @@
 import os
 import numpy
 import hdf5_getters
+<<<<<<< HEAD
 from operations import *
 from network import *
 
@@ -8,9 +9,11 @@ from sklearn import metrics
 from sklearn import cluster
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
+=======
 import pyBN
 from sklearn import metrics, cluster
 from sklearn.cluster import MeanShift, estimate_bandwidth, AffinityPropagation, KMeans, DBSCAN
+>>>>>>> b9634266414e05957e449082bc3858ea5b9de4f7
 from sklearn.datasets import load_digits
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, StandardScaler

@@ -1,13 +1,6 @@
 import os
 import numpy
 import hdf5_getters
-from operations import *
-from network import *
-
-from sklearn import metrics
-from sklearn import cluster
-from sklearn.cluster import KMeans
-from sklearn.cluster import DBSCAN
 import pyBN
 from sklearn import metrics, cluster
 from sklearn.cluster import MeanShift, estimate_bandwidth, AffinityPropagation, KMeans, DBSCAN
@@ -16,20 +9,25 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, StandardScaler
 
 
-def featureExtract(songs):
+def featureExtract(ds_path):
+	lst=open(ds_path + "list.txt",'r') 
+	rows = lst.readlines()
+	lst.close;
 	features=numpy.matrix([1]*7)
-	for songpath in songs:
+	for line in rows:
+		hdf5path = os.path.join(ds_path, line[:-1])
 		songidx = 0
+		onegetter = ''
 		# sanity check
-		#if not os.path.exists(hdf5path):
-			#print ('ERROR: file ' + hdf5path +'does not exist.')
-			#sys.exit(0)
-		h5 = hdf5_getters.open_h5_file_read(songpath)
-		#numSongs = hdf5_getters.get_num_songs(h5)
-		#if songidx >= numSongs:
-			#print('ERROR: file contains only ' + numSongs)
-			#h5.close()
-			#sys.exit(0)
+		if not os.path.exists(hdf5path):
+			print ('ERROR: file ' + hdf5path +'does not exist.')
+			sys.exit(0)
+		h5 = hdf5_getters.open_h5_file_read(hdf5path)
+		numSongs = hdf5_getters.get_num_songs(h5)
+		if songidx >= numSongs:
+			print('ERROR: file contains only ' + numSongs)
+			h5.close()
+			sys.exit(0)
 		row_features=['']*8;
 		row_features[0]=hdf5_getters.get_danceability(h5);
 		row_features[1]=hdf5_getters.get_key(h5)*hdf5_getters.get_key_confidence(h5);
@@ -103,33 +101,10 @@ def dist2prob(featureVector,clusters):
 	return prob
 	
 def createModel(probabilities):
-	model=Network('SongRecommender');
-	clusterPredict=Node('clusterPredict');
-	clusterPredict.addOutcomes(['c1','c2','c3','c4','c5','c6','c7','c8']);
-	clusterPredict.setProbabilities([0.125]*8)
-	model.addNode(clusterPredict);
-	song_nodes=[];
-	arc_nodes=[];
-	i=0;
-	for p in probabilities:
-		n=Node('song'+str(i))
-		n.addOutcomes(['recommended','notRecommended'])
-		tmp=[];
-		for value in p:
-			tmp.append(value)
-			tmp.append(1-value)
-			
-		n.setProbabilities(tmp)
-		a=Arc(clusterPredict,n);
-		model.addNode(n);		
-		song_nodes.append(n);
-		arc_nodes.append(a);
-		i=i+1;
-		print 'finish iteration ' + str(i)
-		print 'tmp(' +str(i)+')'
-		print tmp
+	model=pyBN.Network('SongRecommender');
+	Fu=node('Fu');
+	Fu.addOutcome(['yes','no'])
 	
-	model.writeFile('model.xdsl');
 	return model
 
 
