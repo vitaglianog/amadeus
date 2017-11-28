@@ -1,10 +1,8 @@
 import os
 import numpy
-import hdf5_getters
 import pickle
 
-from operations import *
-from network import *
+from lib import *
 
 from sklearn import metrics
 from sklearn import cluster
@@ -79,7 +77,6 @@ def af_prop_km_clustering(data):
 	kmeans=kmeans.fit(data);
 	labels = kmeans.labels_
 	centroids = kmeans.cluster_centers_
-	print n_clusters_
 	return centroids
 
 def meanshift_clustering(data):
@@ -113,7 +110,7 @@ def clustering(data, n_clusters):
 def dist2prob(featureVector,clusters):
 	prob=[];
 	for x in clusters:
-		prob.append(1/(numpy.linalg.norm(featureVector-x)));
+		prob.append(1./(numpy.linalg.norm(featureVector-x)));
 	total_prob=numpy.sum(prob);
 	for idx,p in enumerate(prob):
 		prob[idx]=p/total_prob;
@@ -132,7 +129,7 @@ def createModel(probabilities,names, centroids):
 	arc_nodes=[];
 	i=0;
 	for p in probabilities:
-		n=Node('song #'+str(i+1)+names[i])
+		n=Node('song_'+str(i+1)+names[i])
 		n.addOutcomes(['recommended','notRecommended'])
 		tmp=[];
 		for value in p:

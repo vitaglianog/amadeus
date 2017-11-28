@@ -1,13 +1,14 @@
 import os
 import sys
-import hdf5_getters
 import numpy
 import agent
 import pickle
 
+from lib import *
+
 from sklearn.preprocessing import scale
 
-ds_path='cal500/data/';
+ds_path='lib/cal500/data/';
 #numpy.savetxt('features.txt', features)
 lst=open(ds_path + "list.txt",'r') 
 rows = lst.readlines()
@@ -19,8 +20,8 @@ for line in rows:
 print "finished acquiring dataset"
 features=agent.featureExtract(songs);	
 print "finished scaling"
-n_clusters=8;
-centroids = agent.clustering(features,n_clusters);
+centroids = agent.af_prop_km_clustering(features);
+n_clusters=len(centroids);
 numpy.savetxt('centroids.txt', centroids)
 #print labels
 print "finished clustering: centroids"

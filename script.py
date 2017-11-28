@@ -1,8 +1,9 @@
 import os
 import sys
-import hdf5_getters
 import numpy
 import agent
+
+from lib import *
 
 from sklearn.preprocessing import scale
 
