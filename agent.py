@@ -129,7 +129,11 @@ def createModel(probabilities,names, centroids):
 	arc_nodes=[];
 	i=0;
 	for p in probabilities:
+<<<<<<< Updated upstream
 		n=Node('song_'+str(i+1)+names[i])
+=======
+		n=Node('song_'+str(i+1)+'_'+names[i]);
+>>>>>>> Stashed changes
 		n.addOutcomes(['recommended','notRecommended'])
 		tmp=[];
 		for value in p:
