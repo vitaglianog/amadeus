@@ -30,6 +30,13 @@ class Network(object):
 		n.append(node)
 	return n
 
+  def getNode(self, name):
+	for node in self.nodes:
+		if node.getName() == name:
+			return node
+	return 0
+
+
   def addNode(self, node):
     """Add one node to the network
 
@@ -383,7 +390,7 @@ class Node(object):
         assignment.sort(key=lambda x: x[i])
 
       for i,item in enumerate(assignment):
-        item.append(probabilities[i])
+		item.append(probabilities[i])
 
       assignment.sort(key=lambda x: x[len(card)-1])
 
