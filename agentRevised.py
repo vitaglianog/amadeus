@@ -224,7 +224,9 @@ def combine(p1,p2,alpha):
 	return prob*len(prob)*len(prob)
 	
 def computeUtility(model,p):
-	beliefs=model.getNode('combinedPrediction').getBeliefs();
+	#this for contextual modeling
+	#beliefs=model.getNode('combinedPrediction').getBeliefs();
+	beliefs=model.getNode('listenedPrediction').getBeliefs();
 	u=0;
 	for idx,b in enumerate(beliefs[:12]):	#only first "column" needed
 		u+=p[idx]*beliefs[idx];
