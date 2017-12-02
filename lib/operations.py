@@ -107,7 +107,7 @@ def FactorProduct(A,B):
 
     # Initialize the factor values of C:
     #   prod(C.card) is the number of entries in C
-    C.val = np.zeros(np.prod(C.card))
+    C.val = np.zeros(np.prod(C.card).astype(np.int))
 
     # Compute some helper indices
     assignment = IndexToAssignment(np.arange(np.prod(C.card)),C.card)
@@ -116,7 +116,7 @@ def FactorProduct(A,B):
 
     # Correctly populate the factor values of C
     for i in range(int(np.prod(C.card))):
-      C.val[i] = A.val[indxA[i]]*B.val[indxB[i]]
+      C.val[i] = A.val[indxA[i].astype(np.int)]*B.val[indxB[i].astype(np.int)]
 
     return C
 
@@ -162,7 +162,7 @@ def FactorMarginalization(A, V):
 
       # Initialize B.card and B.val
       B.card = A.card[mapB]
-      B.val = np.zeros(np.prod(B.card))
+      B.val = np.zeros(np.prod(B.card).astype(np.int))
 
       # Compute some helper indices
       assignment = IndexToAssignment(np.arange(np.prod(A.card)),A.card)
@@ -170,7 +170,7 @@ def FactorMarginalization(A, V):
 
       # Correctly populate the factor values of B
       for i in range(int(len(indxB))):
-        B.val[indxB[i]] += A.val[i]
+        B.val[indxB[i].astype(np.int)] += A.val[i]
 
       return B
 
