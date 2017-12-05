@@ -167,40 +167,40 @@ def createModel(listenedSongs, centroids):
 	listenedPrediction.setProbabilities(listenedProb)
 	model.addNode(listenedPrediction);
 	
-	#add node for contextual-based prediction
-	ctxt_file=open('contextual.pckl','rb');
-	ctxtProb = pickle.load(ctxt_file);
-	ctxt_file.close();
-	contextPrediction=Node('contextPrediction');
-	k=1
-	for i in centroids:
-		contextPrediction.addOutcome('c'+str(k));                                                 
-		k=k+1                                                                                  
-	aTime=Arc(time,contextPrediction);
-	aWeek=Arc(week,contextPrediction);
-	aSeason=Arc(season,contextPrediction);
-	aNation=Arc(nation,contextPrediction);
-	#stubbing
-	tmp=[0.02023608768971332,0.05733558178752108,0.06576728499156829,0.1096121416526138,0.09106239460370995,0.0387858347386172,0.1298482293423271,0.1652613827993255,0.09443507588532883,0.0387858347386172,0.02866779089376054,0.08937605396290051,0.07082630691399661]*240;
-	contextPrediction.setProbabilities(tmp);
-	model.addNode(contextPrediction);
+	##add node for contextual-based prediction
+	#ctxt_file=open('contextual.pckl','rb');
+	#ctxtProb = pickle.load(ctxt_file);
+	#ctxt_file.close();
+	#contextPrediction=Node('contextPrediction');
+	#k=1
+	#for i in centroids:
+		#contextPrediction.addOutcome('c'+str(k));                                                 
+		#k=k+1                                                                                  
+	#aTime=Arc(time,contextPrediction);
+	#aWeek=Arc(week,contextPrediction);
+	#aSeason=Arc(season,contextPrediction);
+	#aNation=Arc(nation,contextPrediction);
+	##stubbing
+	#tmp=[0.02023608768971332,0.05733558178752108,0.06576728499156829,0.1096121416526138,0.09106239460370995,0.0387858347386172,0.1298482293423271,0.1652613827993255,0.09443507588532883,0.0387858347386172,0.02866779089376054,0.08937605396290051,0.07082630691399661]*240;
+	#contextPrediction.setProbabilities(tmp);
+	#model.addNode(contextPrediction);
 	
-	model.computeBeliefs();
-	ctxtEvidence=contextPrediction.getBeliefs();
+	#model.computeBeliefs();
+	#ctxtEvidence=contextPrediction.getBeliefs();
 	
-	#a=contextPrediction.getBeliefs();
-	combinedProbabilities=combine(listenedProb,ctxtEvidence,0.7);
+	##a=contextPrediction.getBeliefs();
+	#combinedProbabilities=combine(listenedProb,ctxtEvidence,0.7);
 	
-	#add node for combinedprediction
-	combinedPrediction=Node('combinedPrediction');
-	k=1
-	for i in centroids:
-		combinedPrediction.addOutcome('c'+str(k));                                                 
-		k=k+1                                                                                  
-	combinedPrediction.setProbabilities(combinedProbabilities);
-	aListened=Arc(listenedPrediction,combinedPrediction);
-	aContext=Arc(contextPrediction,combinedPrediction);
-	model.addNode(combinedPrediction);
+	##add node for combinedprediction
+	#combinedPrediction=Node('combinedPrediction');
+	#k=1
+	#for i in centroids:
+		#combinedPrediction.addOutcome('c'+str(k));                                                 
+		#k=k+1                                                                                  
+	#combinedPrediction.setProbabilities(combinedProbabilities);
+	#aListened=Arc(listenedPrediction,combinedPrediction);
+	#aContext=Arc(contextPrediction,combinedPrediction);
+	#model.addNode(combinedPrediction);
 	
 	#no utility node, used by function
 	#save genie file
@@ -226,7 +226,7 @@ def combine(p1,p2,alpha):
 def computeUtility(model,p):
 	#this for contextual modeling
 	#beliefs=model.getNode('combinedPrediction').getBeliefs();
-	beliefs=model.getNode('listenedPrediction').getBeliefs();
+	beliefs=model.getNode('listenedPrediction').getProbabilities();
 	u=0;
 	for idx,b in enumerate(beliefs[:12]):	#only first "column" needed
 		u+=p[idx]*beliefs[idx];
@@ -260,6 +260,7 @@ def predict(model, songs):
 	for n in nodes:
 		p=nodes[1].getProbabilities();
 		p_truth=[p[0],p[2],p[4],p[6],p[8],p[10],p[12],p[14]]
+		print p_truth;
 		n_max.append(numpy.max(p_truth));
 	ind=numpy.argsort(n_max)
 	return ind[:10]

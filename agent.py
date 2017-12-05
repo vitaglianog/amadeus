@@ -129,7 +129,7 @@ def createModel(probabilities,names, centroids):
 	arc_nodes=[];
 	i=0;
 	for p in probabilities:
-		n=Node('song_'+str(i+1)+'_'+names[i]);
+		n=Node('song_'+str(i+1)+'_');#+names[i]);
 		n.addOutcomes(['recommended','notRecommended'])
 		tmp=[];
 		for value in p:

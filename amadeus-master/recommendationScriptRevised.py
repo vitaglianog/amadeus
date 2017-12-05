@@ -38,12 +38,8 @@ prob = pickle.load(p_file);
 p_file.close();
 utilities=[];
 
-#features=agent_pre.prefiltering(features);
-
 for p in prob:
-	u=agentRevised.computeUtility(model,p);
-	utilities.append(u);
-	print u;
+	utilities.append(agentRevised.computeUtility(model,p));
 print len(utilities)
 ind_recomm=agentRevised.selectBestSongs(utilities);
 

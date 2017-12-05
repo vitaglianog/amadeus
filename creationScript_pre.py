@@ -1,7 +1,7 @@
 import os
 import sys
 import numpy
-import agentRevised
+import agent_pre
 import pickle
 
 from lib import *
@@ -18,12 +18,25 @@ for line in rows:
 	songs.append(os.path.join(ds_path, line[:-1]))
 
 print "finished acquiring dataset"
-features=agentRevised.featureExtract(songs);	
-print "finished scaling"
+features=agent_pre.featureExtract(songs);	
+print "finished normalizing"
 
-#prefiltering goes here
+# Pre filtering
+features=agent_pre.prefiltering(features);
 
-centroids = agentRevised.af_prop_km_clustering(features);
+print features;
+
+number_songs= len(features)
+print "number of songs: ", number_songs
+
+
+#print features;
+print len(features)
+
+
+print "finhished contextual prefiltering"
+
+centroids = agent_pre.af_prop_km_clustering(features);
 n_clusters=len(centroids);
 numpy.savetxt('centroids.txt', centroids)
 print "finished clustering: saving centroids"
@@ -34,9 +47,9 @@ c.close()
 
 prob=[];
 for song in features:
-	prob.append(agentRevised.dist2prob(song,centroids));
+	prob.append(agent_pre.dist2prob(song,centroids));
 
-names=agentRevised.songNames(songs);
+names=agent_pre.songNames(songs);
 
 f = open('song_probabilities.pckl', 'wb')
 pickle.dump(prob, f)
