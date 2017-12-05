@@ -3,6 +3,7 @@ import sys
 import numpy
 import agentRevised
 import pickle
+import agent_pre
 from sklearn.preprocessing import scale
 from random import randint
 
@@ -33,16 +34,23 @@ c_file.close();
 model=agentRevised.createModel(listenedSongs,centroids);
 
 print "\nAmadeus is computing your recommendations...\n"
-p_file= open('song_probabilities.pckl', 'rb')
-prob = pickle.load(p_file);
-p_file.close();
+f_file= open('song_probabilities.pckl', 'rb')
+features = pickle.load(f_file);
+f_file.close();
 utilities=[];
 
-for p in prob:
-	utilities.append(agentRevised.computeUtility(model,p));
-print len(utilities)
+[features,idx]=agentRevised.prefiltering(features);
+for i in idx:
+		songs=numpy.delete(songs,i,0);
+
+for f in features:
+	p=agent_pre.dist2prob(f,centroids);
+	u=agentRevised.computeUtility(model,p);
+	utilities.append(u);
+
 ind_recomm=agentRevised.selectBestSongs(utilities);
 
+print ind_recomm;
 print "\nRecommended songs:\n"
 for i in ind_recomm:
-	print agentRevised.songNames(songs[i])
+	print agentRevised.songNames(songs[i]);

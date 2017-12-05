@@ -21,11 +21,11 @@ def songNames(songs):
 		names=[];
 		for songpath in songs:
 			h5 = hdf5_getters.open_h5_file_read(songpath)
-			names.append(hdf5_getters.get_title(h5));
+			names.append(hdf5_getters.get_title(h5)+' - '+hdf5_getters.get_artist_name(h5))
 			h5.close()
 	elif(numpy.size(songs)==1):
 		h5 = hdf5_getters.open_h5_file_read(songs)
-		names=hdf5_getters.get_title(h5);
+		names.append(hdf5_getters.get_title(h5)+' - '+hdf5_getters.get_artist_name(h5))
 		h5.close()
 	return names
 
@@ -167,40 +167,40 @@ def createModel(listenedSongs, centroids):
 	listenedPrediction.setProbabilities(listenedProb)
 	model.addNode(listenedPrediction);
 	
-	#add node for contextual-based prediction
-	ctxt_file=open('contextual.pckl','rb');
-	ctxtProb = pickle.load(ctxt_file);
-	ctxt_file.close();
-	contextPrediction=Node('contextPrediction');
-	k=1
-	for i in centroids:
-		contextPrediction.addOutcome('c'+str(k));                                                 
-		k=k+1                                                                                  
-	aTime=Arc(time,contextPrediction);
-	aWeek=Arc(week,contextPrediction);
-	aSeason=Arc(season,contextPrediction);
-	aNation=Arc(nation,contextPrediction);
-	#stubbing
-	tmp=[0.02023608768971332,0.05733558178752108,0.06576728499156829,0.1096121416526138,0.09106239460370995,0.0387858347386172,0.1298482293423271,0.1652613827993255,0.09443507588532883,0.0387858347386172,0.02866779089376054,0.08937605396290051,0.07082630691399661]*240;
-	contextPrediction.setProbabilities(tmp);
-	model.addNode(contextPrediction);
+	##add node for contextual-based prediction
+	#ctxt_file=open('contextual.pckl','rb');
+	#ctxtProb = pickle.load(ctxt_file);
+	#ctxt_file.close();
+	#contextPrediction=Node('contextPrediction');
+	#k=1
+	#for i in centroids:
+		#contextPrediction.addOutcome('c'+str(k));                                                 
+		#k=k+1                                                                                  
+	#aTime=Arc(time,contextPrediction);
+	#aWeek=Arc(week,contextPrediction);
+	#aSeason=Arc(season,contextPrediction);
+	#aNation=Arc(nation,contextPrediction);
+	##stubbing
+	#tmp=[0.02023608768971332,0.05733558178752108,0.06576728499156829,0.1096121416526138,0.09106239460370995,0.0387858347386172,0.1298482293423271,0.1652613827993255,0.09443507588532883,0.0387858347386172,0.02866779089376054,0.08937605396290051,0.07082630691399661]*240;
+	#contextPrediction.setProbabilities(tmp);
+	#model.addNode(contextPrediction);
 	
-	model.computeBeliefs();
-	ctxtEvidence=contextPrediction.getBeliefs();
+	#model.computeBeliefs();
+	#ctxtEvidence=contextPrediction.getBeliefs();
 	
-	#a=contextPrediction.getBeliefs();
-	combinedProbabilities=combine(listenedProb,ctxtEvidence,0.7);
+	##a=contextPrediction.getBeliefs();
+	#combinedProbabilities=combine(listenedProb,ctxtEvidence,0.7);
 	
-	#add node for combinedprediction
-	combinedPrediction=Node('combinedPrediction');
-	k=1
-	for i in centroids:
-		combinedPrediction.addOutcome('c'+str(k));                                                 
-		k=k+1                                                                                  
-	combinedPrediction.setProbabilities(combinedProbabilities);
-	aListened=Arc(listenedPrediction,combinedPrediction);
-	aContext=Arc(contextPrediction,combinedPrediction);
-	model.addNode(combinedPrediction);
+	##add node for combinedprediction
+	#combinedPrediction=Node('combinedPrediction');
+	#k=1
+	#for i in centroids:
+		#combinedPrediction.addOutcome('c'+str(k));                                                 
+		#k=k+1                                                                                  
+	#combinedPrediction.setProbabilities(combinedProbabilities);
+	#aListened=Arc(listenedPrediction,combinedPrediction);
+	#aContext=Arc(contextPrediction,combinedPrediction);
+	#model.addNode(combinedPrediction);
 	
 	#no utility node, used by function
 	#save genie file
@@ -226,7 +226,7 @@ def combine(p1,p2,alpha):
 def computeUtility(model,p):
 	#this for contextual modeling
 	#beliefs=model.getNode('combinedPrediction').getBeliefs();
-	beliefs=model.getNode('listenedPrediction').getBeliefs();
+	beliefs=model.getNode('listenedPrediction').getProbabilities();
 	u=0;
 	for idx,b in enumerate(beliefs[:12]):	#only first "column" needed
 		u+=p[idx]*beliefs[idx];
@@ -235,6 +235,7 @@ def computeUtility(model,p):
 	
 def selectBestSongs(utilities):
 	ind=numpy.argsort(utilities)
+	print ind
 	return ind[-10:]
 		
 
@@ -260,6 +261,687 @@ def predict(model, songs):
 	for n in nodes:
 		p=nodes[1].getProbabilities();
 		p_truth=[p[0],p[2],p[4],p[6],p[8],p[10],p[12],p[14]]
+		print p_truth;
 		n_max.append(numpy.max(p_truth));
 	ind=numpy.argsort(n_max)
 	return ind[:10]
+
+def prefiltering(features):
+	print "Choose Context"
+	print "Time of the day:"
+	print "1. Morning"
+	print "2. Afternoon"
+	print "3. Evening"
+	print "4. Night"
+
+	time_day = raw_input()
+
+	#
+	# fazer um while para os erros
+	#
+	if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
+		time_day = float(time_day)
+	else:
+		print "you have to write one of the number options"
+		
+		print "Time of the day:"        # tempo row_features[5]
+		print "1. Morning"
+		print "2. Afternoon"
+		print "3. Evening"
+		print "4. Night"
+		time_day = raw_input()
+
+	print "Kind of week:"               # danceability row_features[0]
+	print "1. Working"
+	print "2. Weekend"
+	print "3. Holiday"
+
+	week = raw_input()
+
+	#
+	# fazer um while para os erros
+	#
+	if( week == "1" or week =="2" or week =="3"):
+			week = float(week)
+	else:
+		print "you have to write one of the number options"
+		print "Kind of week:"
+		print "1. Working"
+		print "2. Weekend"
+		print "3. Holiday"
+		week = raw_input()
+
+	print "Season:"                     # loudness  row_features[2]
+	print '1. Winter'
+	print '2. Spring'
+	print '3. Summer'
+	print '4. Autumn'
+
+	season = raw_input()
+
+	#
+	# fazer um while para os erros
+	#
+	if( season == "1" or season =="2" or season =="3" or season =="4"):
+			season = float(season)
+	else:
+		print "you have to write one of the number options"
+		print "Season:"
+		print '1. Winter'
+		print '2. Spring'
+		print '3. Summer'
+		print '4. Autumn'
+		season = raw_input()
+		
+	songs_deleted = 0
+	s=0
+	to_delete = []
+	for song in features:
+		
+		if time_day == 1:  #morning
+			if week == 1: #work
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)	
+						elif i==2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s) 	
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4: #autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)	
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+					
+			elif week == 2: #weekend
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s) 
+				else:
+					print "ERROR on season"	
+					
+			elif week == 3: #holiday	
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s) 
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s) 
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s) 
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s) 
+								break
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+								
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.25:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"	
+			else:
+				print "ERROR on week"
+					
+					
+		elif time_day == 2: #afternoon
+			if week == 1: #work
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s) 
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+								
+			elif week == 2: #weekend
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+					
+			elif week == 3: #holiday
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)	
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"	
+			else:
+				print "ERROR on week"
+				
+				
+		elif time_day == 3: #evening
+			if week == 1: #work
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i ==0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i ==0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+					
+			elif week == 2: #weekend
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i ==0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i ==2:
+							if song[i] < 0.1:
+								to_delete.append(s) 
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s) 
+						elif i==0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+					
+			elif week == 3: #holiday
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.85:
+								to_delete.append(s)
+						elif i==0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i==2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"	
+			
+			else:
+				print "ERROR on week"
+		
+				
+		elif time_day == 4: #night	
+			if week == 1: #work	
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+								
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+								
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+				
+			elif week == 2: #weekend
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.15:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"
+			
+			elif week == 3: #holiday
+				if season == 1: #winter
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.8:
+								to_delete.append(s)
+				elif season == 2: #spring
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.1:
+								to_delete.append(s)
+				elif season == 3: #summer
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] < 0.2:
+								to_delete.append(s)
+				elif season == 4:	#autumn
+					for i in range(len(song)):
+						if i == 5:
+							if song[i] > 0.75:
+								to_delete.append(s)
+						elif i == 0:
+							if song[i] < 0.3:
+								to_delete.append(s)
+						elif i == 2:
+							if song[i] > 0.9:
+								to_delete.append(s)
+				else:
+					print "ERROR on season"	
+					
+			else:
+				print "ERROR on week"	
+				
+				
+		else:
+			print "ERROR on time_day"
+		s=s+1
+		
+	to_delete=numpy.unique(to_delete);
+	for idx in to_delete:
+		features=numpy.delete(features,idx,0);
+		to_delete[:] = [x - 1 for x in to_delete]
+	return [features,to_delete];
