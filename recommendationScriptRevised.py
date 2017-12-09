@@ -40,7 +40,10 @@ f_file.close();
 utilities=[];
 
 [features,del_ind]=agentRevised.prefiltering(features);
-for idx in del_ind:
+	
+print str(len(del_ind2)) + " e invece lei ne toglie " + str(len(del_ind))
+
+for idx in reversed(del_ind):
 	songs=numpy.delete(songs,idx,0);
 print "Number of songs after prefiltering: " + str(len(features))
 

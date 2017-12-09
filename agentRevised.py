@@ -318,14 +318,36 @@ def askContext():
 				correct=True;
 		else:
 			print "you have to write one of the number options"
-	
 
 def prefiltering(features):
+	#[time_day,week,season]=askContext();
+	time_day=1;
+	week=2;
+	season=3;
+	s_features=scale(features);
+	to_delete = []
+	for ind,song in enumerate(s_features):
+		if (time_day==1 and song[5]<0.25) or (time_day==2 and song[5]<0.15) or (time_day==3 and song[5]>0.85) or (time_day==4 and song[5]>0.75):
+				to_delete.append(ind)
+				continue
+		if (week ==1 and song[0]>0.75) or (week==2 and song[0]<0.15) or (week ==3 and song[0]<0.3):
+				to_delete.append(ind)
+				continue
+		if (season==1 and song[2]>0.8) or (season==2 and song[2]<0.1) or (season==3 and song[2]<0.2) or (season==4 and song[2]>0.9):
+				to_delete.append(ind)
+				continue
 	
-	[time_day,week,season]=askContext();
-	#time_day=1;
-	#week=2;
-	#season=3;
+	for i in reversed(to_delete):
+		features=numpy.delete(features,i,0);
+	
+	return [features,to_delete];
+
+def prefiltering_OLD(features):
+	
+	#[time_day,week,season]=askContext();
+	time_day=1;
+	week=2;
+	season=3;
 	s_features=scale(features);
 	songs_deleted = 0
 	s=0
@@ -934,7 +956,9 @@ def prefiltering(features):
 		s=s+1
 		
 	to_delete=numpy.unique(to_delete);
-	for idx in to_delete:
-		features=numpy.delete(features,idx,0);
-		to_delete[:] = [x - 1 for x in to_delete]
+	
+	for i in reversed(to_delete):
+		features=numpy.delete(features,i,0);
+
+	
 	return [features,to_delete];
