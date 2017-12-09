@@ -274,7 +274,7 @@ def predict(model, songs):
 	
 def askContext():
 	correct=False;
-	while(!correct);
+	while not correct:
 		print "Choose Context"
 		print "Time of the day:"
 		print "1. Morning"
@@ -291,7 +291,7 @@ def askContext():
 			print "you have to write one of the number options"
 
 	correct=False;
-	while(!correct)
+	while not correct:
 		print "Kind of week:"               # danceability row_features[0]
 		print "1. Working"
 		print "2. Weekend"
@@ -306,7 +306,7 @@ def askContext():
 			print "you have to write one of the number options"
 
 	correct=False;
-	while(!correct)
+	while not correct:
 		print "Season:"                     # loudness  row_features[2]
 		print '1. Winter'
 		print '2. Spring'
