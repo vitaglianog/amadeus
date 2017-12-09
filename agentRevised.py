@@ -271,9 +271,8 @@ def predict(model, songs):
 		n_max.append(numpy.max(p_truth));
 	ind=numpy.argsort(n_max)
 	return ind[:10]
-
-def prefiltering(features):
 	
+def askContext():
 	bool correct=false;
 	while(!correct);
 		print "Choose Context"
@@ -284,7 +283,7 @@ def prefiltering(features):
 		print "4. Night"
 
 		time_day = raw_input()
-
+		
 		if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
 			time_day = float(time_day)
 			correct=true;
@@ -299,7 +298,7 @@ def prefiltering(features):
 		print "3. Holiday"
 
 		week = raw_input()
-
+	
 		if( week == "1" or week =="2" or week =="3"):
 				week = float(week)
 				correct=true;
@@ -320,6 +319,14 @@ def prefiltering(features):
 				correct=true;
 		else:
 			print "you have to write one of the number options"
+	
+
+def prefiltering(features):
+	
+	#[time_day,week,season]=askContext();
+	time_day=1;
+	week=2;
+	season=3;
 		
 	songs_deleted = 0
 	s=0
