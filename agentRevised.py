@@ -273,7 +273,7 @@ def predict(model, songs):
 	return ind[:10]
 	
 def askContext():
-	bool correct=False;
+	correct=False;
 	while(!correct);
 		print "Choose Context"
 		print "Time of the day:"
