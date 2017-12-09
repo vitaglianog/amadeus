@@ -273,7 +273,7 @@ def predict(model, songs):
 	return ind[:10]
 	
 def askContext():
-	bool correct=false;
+	bool correct=False;
 	while(!correct);
 		print "Choose Context"
 		print "Time of the day:"
@@ -286,11 +286,11 @@ def askContext():
 		
 		if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
 			time_day = float(time_day)
-			correct=true;
+			correct=True;
 		else:
 			print "you have to write one of the number options"
 
-	correct=false;
+	correct=False;
 	while(!correct)
 		print "Kind of week:"               # danceability row_features[0]
 		print "1. Working"
@@ -301,11 +301,11 @@ def askContext():
 	
 		if( week == "1" or week =="2" or week =="3"):
 				week = float(week)
-				correct=true;
+				correct=True;
 		else:
 			print "you have to write one of the number options"
 
-	correct=false;
+	correct=False;
 	while(!correct)
 		print "Season:"                     # loudness  row_features[2]
 		print '1. Winter'
@@ -316,7 +316,7 @@ def askContext():
 		season = raw_input()
 		if( season == "1" or season =="2" or season =="3" or season =="4"):
 				season = float(season)
-				correct=true;
+				correct=True;
 		else:
 			print "you have to write one of the number options"
 	
