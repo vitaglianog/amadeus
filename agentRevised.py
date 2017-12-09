@@ -14,7 +14,7 @@ from sklearn.cluster import MeanShift, estimate_bandwidth, AffinityPropagation, 
 from sklearn.datasets import load_digits
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, StandardScaler
-
+from sklearn.metrics.pairwise import cosine_similarity
 
 def songNames(songs):
 	if(numpy.size(songs)>1):
@@ -24,6 +24,7 @@ def songNames(songs):
 			names.append(hdf5_getters.get_title(h5)+' - '+hdf5_getters.get_artist_name(h5))
 			h5.close()
 	elif(numpy.size(songs)==1):
+		names=[];
 		h5 = hdf5_getters.open_h5_file_read(songs)
 		names.append(hdf5_getters.get_title(h5)+' - '+hdf5_getters.get_artist_name(h5))
 		h5.close()
@@ -226,16 +227,21 @@ def combine(p1,p2,alpha):
 def computeUtility(model,p):
 	#this for contextual modeling
 	#beliefs=model.getNode('combinedPrediction').getBeliefs();
-	beliefs=model.getNode('listenedPrediction').getProbabilities();
+	beliefs=model.getNode('listenedPrediction').getBeliefs();
 	u=0;
+	p_sq=0;
+	b_sq=0;
+	#u=cosine_similarity(p,beliefs);
 	for idx,b in enumerate(beliefs[:12]):	#only first "column" needed
 		u+=p[idx]*beliefs[idx];
+		p_sq+=numpy.square(p[idx]);
+		b_sq+=numpy.square(beliefs[idx]);
+	u=u/(p_sq*b_sq);
 	return u
 	
 	
 def selectBestSongs(utilities):
 	ind=numpy.argsort(utilities)
-	print ind
 	return ind[-10:]
 		
 
@@ -267,71 +273,53 @@ def predict(model, songs):
 	return ind[:10]
 
 def prefiltering(features):
-	print "Choose Context"
-	print "Time of the day:"
-	print "1. Morning"
-	print "2. Afternoon"
-	print "3. Evening"
-	print "4. Night"
-
-	time_day = raw_input()
-
-	#
-	# fazer um while para os erros
-	#
-	if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
-		time_day = float(time_day)
-	else:
-		print "you have to write one of the number options"
-		
-		print "Time of the day:"        # tempo row_features[5]
+	
+	bool correct=false;
+	while(!correct);
+		print "Choose Context"
+		print "Time of the day:"
 		print "1. Morning"
 		print "2. Afternoon"
 		print "3. Evening"
 		print "4. Night"
+
 		time_day = raw_input()
 
-	print "Kind of week:"               # danceability row_features[0]
-	print "1. Working"
-	print "2. Weekend"
-	print "3. Holiday"
+		if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
+			time_day = float(time_day)
+			correct=true;
+		else:
+			print "you have to write one of the number options"
 
-	week = raw_input()
-
-	#
-	# fazer um while para os erros
-	#
-	if( week == "1" or week =="2" or week =="3"):
-			week = float(week)
-	else:
-		print "you have to write one of the number options"
-		print "Kind of week:"
+	correct=false;
+	while(!correct)
+		print "Kind of week:"               # danceability row_features[0]
 		print "1. Working"
 		print "2. Weekend"
 		print "3. Holiday"
+
 		week = raw_input()
 
-	print "Season:"                     # loudness  row_features[2]
-	print '1. Winter'
-	print '2. Spring'
-	print '3. Summer'
-	print '4. Autumn'
+		if( week == "1" or week =="2" or week =="3"):
+				week = float(week)
+				correct=true;
+		else:
+			print "you have to write one of the number options"
 
-	season = raw_input()
-
-	#
-	# fazer um while para os erros
-	#
-	if( season == "1" or season =="2" or season =="3" or season =="4"):
-			season = float(season)
-	else:
-		print "you have to write one of the number options"
-		print "Season:"
+	correct=false;
+	while(!correct)
+		print "Season:"                     # loudness  row_features[2]
 		print '1. Winter'
 		print '2. Spring'
 		print '3. Summer'
 		print '4. Autumn'
+		
 		season = raw_input()
+		if( season == "1" or season =="2" or season =="3" or season =="4"):
+				season = float(season)
+				correct=true;
+		else:
+			print "you have to write one of the number options"
 		
 	songs_deleted = 0
 	s=0
