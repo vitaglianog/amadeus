@@ -127,9 +127,8 @@ def createModel(listenedSongs, centroids):
 	mean_features=[];
 	for f in feat_row:
 		mean_features.append(numpy.mean(f));	
-	mean_features=scale(mean_features);
+	#mean_features=scale(mean_features);
 	listenedProb=dist2prob(mean_features,centroids);
-	
 	
 	ctxtEvidence=getContext();
 	#add nodes for contextual prediction
@@ -323,16 +322,15 @@ def askContext():
 
 def prefiltering(features):
 	
-	#[time_day,week,season]=askContext();
-	time_day=1;
-	week=2;
-	season=3;
-		
+	[time_day,week,season]=askContext();
+	#time_day=1;
+	#week=2;
+	#season=3;
+	s_features=scale(features);
 	songs_deleted = 0
 	s=0
 	to_delete = []
-	for song in features:
-		
+	for song in s_features:
 		if time_day == 1:  #morning
 			if week == 1: #work
 				if season == 1: #winter

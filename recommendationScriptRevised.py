@@ -34,17 +34,21 @@ c_file.close();
 model=agentRevised.createModel(listenedSongs,centroids);
 
 print "\nAmadeus is computing your recommendations...\n"
-f_file= open('song_probabilities.pckl', 'rb')
+f_file= open('song_features.pckl', 'rb')
 features = pickle.load(f_file);
 f_file.close();
 utilities=[];
 
-for p in prob:
+[features,del_ind]=agentRevised.prefiltering(features);
+for idx in del_ind:
+	songs=numpy.delete(songs,idx,0);
+print "Number of songs after prefiltering: " + str(len(features))
+
+for f in features:
+	p=agentRevised.dist2prob(f,centroids);
 	utilities.append(agentRevised.computeUtility(model,p));
-print len(utilities)
 ind_recomm=agentRevised.selectBestSongs(utilities);
 
-print ind_recomm;
-print "\nRecommended songs:\n"
-for i in ind_recomm:
-	print agentRevised.songNames(songs[i]);
+print "\nRecommended songs, from the most to the least:\n"
+for i in reversed(ind_recomm):
+	print str(agentRevised.songNames(songs[i]));
