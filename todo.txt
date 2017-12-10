@@ -1,12 +1,10 @@
 todo:
 
 	norma - tem que ser como?
-	suggestion - always the same :D
-	post-filtering - 
+	
+	post-filtering 
 	contextual modeling - aleatorio (?)
-	name of author
 	use of 10000 songs
-	revise pre_filtering code
-
+	
 	GUI
 	validation(!?)

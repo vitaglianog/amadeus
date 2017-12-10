@@ -9,7 +9,9 @@ from random import randint
 
 numpy.set_printoptions(suppress=True)
 
-ds_path='lib/cal500/data/';
+#ds_path='lib/cal500/data/';
+ds_path='lib/MillionSongSubset/data/';
+
 #numpy.savetxt('features.txt', features)
 lst=open(ds_path + "list.txt",'r') 
 rows = lst.readlines()
@@ -21,28 +23,26 @@ for line in rows:
 #Actual listened songs
 listenedSongs=[];
 for i in range(10):
-	listenedSongs.append(songs[randint(0,502)]);
+	listenedSongs.append(songs[randint(0,10000)]);
 names=agentRevised.songNames(listenedSongs);
 print "\nWelcome to Amadeus:\n You have listened these songs: \n"
 for n in names:
 	print n
 
 print "\nInitializing bayesian module...\n"
-c_file=open('centroids.pckl','rb');
+c_file=open(ds_path + 'centroids.pckl','rb');
 centroids = pickle.load(c_file);
 c_file.close();
 model=agentRevised.createModel(listenedSongs,centroids);
 
 print "\nAmadeus is computing your recommendations...\n"
-f_file= open('song_features.pckl', 'rb')
+f_file= open(ds_path + 'song_features.pckl', 'rb')
 features = pickle.load(f_file);
 f_file.close();
 utilities=[];
 
 [features,del_ind]=agentRevised.prefiltering(features);
 	
-print str(len(del_ind2)) + " e invece lei ne toglie " + str(len(del_ind))
-
 for idx in reversed(del_ind):
 	songs=numpy.delete(songs,idx,0);
 print "Number of songs after prefiltering: " + str(len(features))

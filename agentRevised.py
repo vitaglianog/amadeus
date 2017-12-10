@@ -1,20 +1,18 @@
 import os
 import numpy
 import pickle
-
+import time
+import pyBN
 from lib import *
+from lib import holidays
+
 
 from sklearn import metrics
 from sklearn import cluster
-from sklearn.cluster import KMeans
-from sklearn.cluster import DBSCAN
-import pyBN
-from sklearn import metrics, cluster
-from sklearn.cluster import MeanShift, estimate_bandwidth, AffinityPropagation, KMeans, DBSCAN
+from sklearn.cluster import KMeans,MeanShift, estimate_bandwidth, AffinityPropagation, KMeans, DBSCAN
 from sklearn.datasets import load_digits
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import scale, StandardScaler
-from sklearn.metrics.pairwise import cosine_similarity
 
 def songNames(songs):
 	if(numpy.size(songs)>1):
@@ -32,7 +30,7 @@ def songNames(songs):
 
 
 def featureExtract(songs,scaling=1):
-	features=numpy.matrix([1]*7)
+	features=numpy.matrix([1]*5)
 	for songpath in songs:
 		songidx = 0
 		# sanity check
@@ -45,19 +43,19 @@ def featureExtract(songs,scaling=1):
 			#print('ERROR: file contains only ' + numSongs)
 			#h5.close()
 			#sys.exit(0)
-		row_features=['']*8;
-		row_features[0]=hdf5_getters.get_danceability(h5);
-		row_features[1]=hdf5_getters.get_key(h5)*hdf5_getters.get_key_confidence(h5);
-		row_features[2]=hdf5_getters.get_loudness(h5);
-		row_features[3]=hdf5_getters.get_mode(h5)*hdf5_getters.get_mode_confidence(h5);
-		row_features[4]=hdf5_getters.get_song_hotttnesss(h5);
-		row_features[5]=hdf5_getters.get_tempo(h5);
-		row_features[6]=hdf5_getters.get_time_signature(h5);
+		row_features=['']*5;
+		#row_features[0]=hdf5_getters.get_danceability(h5);
+		row_features[0]=hdf5_getters.get_key(h5)*hdf5_getters.get_key_confidence(h5);
+		row_features[1]=hdf5_getters.get_loudness(h5);
+		row_features[2]=hdf5_getters.get_mode(h5)*hdf5_getters.get_mode_confidence(h5);
+		#row_features[4]=hdf5_getters.get_song_hotttnesss(h5);
+		row_features[3]=hdf5_getters.get_tempo(h5);
+		row_features[4]=hdf5_getters.get_time_signature(h5);
 	#	row_features[7]=hdf5_getters.get_year(h5);
-		features=numpy.vstack([features,row_features[0:7]]);	
+		features=numpy.vstack([features,row_features[0:5]]);	
 		h5.close()
 	features = numpy.delete(features, (0), axis=0)
-	features = numpy.delete(features, (0), axis=1)
+	#features = numpy.delete(features, (0), axis=1)
 	if scaling:
 		features=scale(features)
 	return features
@@ -74,7 +72,7 @@ def af_prop_km_clustering(data):
 	n_samples, n_features = data.shape
 	n_songs = len(data)
 	sample_size = 300
-	kmeans=cluster.KMeans(n_clusters_).fit(data);
+	kmeans=cluster.MiniBatchKMeans(n_clusters_).fit(data);
 	kmeans=kmeans.fit(data);
 	labels = kmeans.labels_
 	centroids = kmeans.cluster_centers_
@@ -100,7 +98,7 @@ def clustering(data, n_clusters):
 	n_samples, n_features = data.shape
 	n_songs = len(data)
 	sample_size = 300
-	kmeans=cluster.KMeans(n_clusters).fit(data);
+	kmeans=cluster.MiniBatchKMeans(n_clusters).fit(data);
 	kmeans=kmeans.fit(data);
 	labels = kmeans.labels_
 	centroids = kmeans.cluster_centers_
@@ -151,13 +149,7 @@ def createModel(listenedSongs, centroids):
 	model.setEvidence('time',ctxtEvidence[2])
 
 
-	nation=Node('nation');
-	nation.addOutcomes(['Italy','Spain','Portugal','France','USA']);
-	nation.setProbabilities([0.20]*5);
-	model.addNode(nation);
-	model.setEvidence('time',ctxtEvidence[3])
 
-	
 	#add aggregator node for content-based prediction
 	listenedPrediction=Node('listenedPrediction');
 	k=1
@@ -166,6 +158,13 @@ def createModel(listenedSongs, centroids):
 		k=k+1                                                                                  
 	listenedPrediction.setProbabilities(listenedProb)
 	model.addNode(listenedPrediction);
+
+
+	#nation=Node('nation');
+	#nation.addOutcomes(['Italy','Spain','Portugal','France','USA']);
+	#nation.setProbabilities([0.20]*5);
+	#model.addNode(nation);
+	#model.setEvidence('time',ctxtEvidence[3])
 	
 	##add node for contextual-based prediction
 	#ctxt_file=open('contextual.pckl','rb');
@@ -207,11 +206,6 @@ def createModel(listenedSongs, centroids):
 	model.writeFile('modelRevised.xdsl');
 	
 	return model
-
-
-#stubbed method to get contextual information
-def getContext():
-	return [1,1,1,1];
 
 def combine(p1,p2,alpha):
 	prob=[0]*len(p1);
@@ -271,6 +265,50 @@ def predict(model, songs):
 	ind=numpy.argsort(n_max)
 	return ind[:10]
 	
+	
+def getContext():
+	day=time.strftime("%B %d %Y")
+	pt_holidays = holidays.Portugal();
+	weekday = time.strftime("%w")	#weekday as decimal
+	
+	if weekday in range(1,6):
+		week=1;
+	if weekday>5:
+		week=2;
+	if (day in pt_holidays or weekday==0):
+		week=3;
+	
+	hour = time.strftime("%H")	#hour as decimal
+	
+	if hour>=6 and hour<12:
+		hour_day=1;
+	elif hour>=12 and hour<18:
+		hour_day=2;
+	elif hour>=18 and hour<24:
+		hour_day=3;
+	else:
+		hour_day=4;
+
+	day = time.strftime("%j")	#day as decimal
+	# "day of year" ranges for the northern hemisphere
+	spring = range(80, 172)
+	summer = range(172, 264)
+	fall = range(264, 355)
+	# winter = everything else
+	
+	if day in spring:
+	  season = 2
+	elif day in summer:
+	  season = 3
+	elif day in fall:
+	  season = 4
+	else:
+	  season = 1
+	
+	return [hour_day,week,season]
+	
+	
+		
 def askContext():
 	correct=False;
 	while not correct:
@@ -321,13 +359,14 @@ def askContext():
 
 def prefiltering(features):
 	#[time_day,week,season]=askContext();
+	#[time_day,week,season]=getContext();
 	time_day=1;
 	week=2;
 	season=3;
 	s_features=scale(features);
 	to_delete = []
 	for ind,song in enumerate(s_features):
-		if (time_day==1 and song[5]<0.25) or (time_day==2 and song[5]<0.15) or (time_day==3 and song[5]>0.85) or (time_day==4 and song[5]>0.75):
+		if (time_day==1 and song[4]<0.25) or (time_day==2 and song[4]<0.15) or (time_day==3 and song[4]>0.85) or (time_day==4 and song[4]>0.75):
 				to_delete.append(ind)
 				continue
 		if (week ==1 and song[0]>0.75) or (week==2 and song[0]<0.15) or (week ==3 and song[0]<0.3):
@@ -962,3 +1001,5 @@ def prefiltering_OLD(features):
 
 	
 	return [features,to_delete];
+
+

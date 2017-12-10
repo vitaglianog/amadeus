@@ -1,3 +1,7 @@
+#data_libraries
+lib/cal500
+lib/MillionSongSubset
+
 #amadeus
 *.pckl
 *.xdsl
