@@ -19,9 +19,9 @@ from sklearn.preprocessing import scale, StandardScaler
 def norm(X):
 	X_min = min(X)
 	X_max = max(X)
-	for i in X:
-		for j in i:
-			X[i][j] = (X[i][j]-X_min)/(X_max-X_min)
+	X_peak=X_min-X_max;
+
+	X[:] = [(x - X_min)/X_peak for x in X]
 	return X
 
 def songNames(songs):
