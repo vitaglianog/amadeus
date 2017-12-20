@@ -1,0 +1,73 @@
+Metadata-Version: 1.0
+Name: amadeus
+Version: 0.3.0
+Summary: Content based recommendation system
+Home-page: https://github.com/Mozzers/amadeus
+Author: Gerardo Vitagliano, Solange Nunes
+Author-email: vitaglianog@gmail.com
+License: MIT License
+
+Copyright (c) [year] [fullname]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Description-Content-Type: UNKNOWN
+Description: ========================
+        Amadeus
+        ========================
+        
+        A content-based music recommender system with time contextual pre and post filtering.
+        
+        Usage
+        ===============
+        
+        ---------------------
+        Dataset requirement:
+        To run the recommendation, h5 files representing song features from the cal500 dataset, or the Million Song Dataset should be placed in cal500/data (or MillionSongSubset/data).
+        If the cal500 dataset is chosen, uncomment line 11 and comment line 12 in bin/creation.py and bin/recommendation.py.
+         
+        --------------------
+        First run:
+        The configuration requires running a single time (for each dataset) the script creation.py.
+        
+        -----------------------
+        Recommendation sample:
+        A sample recommendation can be obtained running the script recommendation.py, which will choose 10 random songs from the chosen dataset and print the recommendations in case no filtering, a prefiltering or a postfiltering are used. 
+        The time context is, by default, extracted by the actual time information of the execution.
+        In case further experimentation is desired, in the prefiltering and postfiltering functions of amadeus.py the line
+        	[time_day,week,season]=getContext();
+        	
+        can be substituted with the commented
+        	[time_day,week,season]=askContext();
+        
+        
+        Dataset Copyrights
+        =================
+        
+        ------------------
+        Thierry Bertin-Mahieux, Daniel P.W. Ellis, Brian Whitman, and Paul Lamere. 
+        The Million Song Dataset. In Proceedings of the 12th International Society
+        for Music Information Retrieval Conference (ISMIR 2011), 2011.
+        
+        ------------------
+        Turnbull, D., Barrington, L., Torres, D., and Lanckriet, G. (2008). Semantic
+        annotation and retrieval of music and sound effects. IEEE Transactions on
+        Audio, Speech, and Language Processing, 16(2):467–476.
+        
+Platform: UNKNOWN
