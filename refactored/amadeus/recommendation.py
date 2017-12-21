@@ -29,12 +29,12 @@ c_file.close();
 #Actual listened songs
 rockSongs=[203,512,560,1084,1247,1417,2575,3067,3847,7364,8077,8845,8883,9121,9137];
 orchestraSongs=[506,780,950,1252,1401,2029,2156,2167,3218,4057,4994,5016,5224,5767,5830,9907];
-
+jazzSongs=[509,797,1108,1180,1837,2134,2138,2174,2361,2336,2378,2430,3131,3482,4504,6140];
 
 listenedFeatures=[];
 
 print "\nWelcome to Amadeus!\n You have listened these songs: \n"
-for i in reversed(orchestraSongs):
+for i in reversed(jazzSongs):
 	print songs[i];
 	listenedFeatures.append(features[i]);
 	songs=numpy.delete(songs,i,0); #avoid choosing/recommending same song
