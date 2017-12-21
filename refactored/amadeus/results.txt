@@ -1,0 +1,76 @@
+ You have listened these songs: 
+
+Immigrant Song (Album Version) - Led Zeppelin
+Start Me Up - The Rolling Stones
+War? - System of a Down
+Sweet Child O' Mine - Guns N' Roses
+Three Little Birds - Bob Marley & The Wailers
+Crazy - Aerosmith
+Lose This Skin - The Clash
+Strange Days ( LP Version ) - The Doors
+Snow [Hey Oh] [Live Version] - Red Hot Chili Peppers
+Voodoo Chile Blues - Jimi Hendrix
+With A Little Help From My Friends - Santana
+Heart-Shaped Box - Nirvana
+Hit The Lights - Metallica
+A New Hope - Blink-182
+God Save the Queen (Live) - Sex Pistols
+
+Amadeus is computing your recommendations...
+
+Recommended songs, from the most to the least:
+
+['Afonsina y el mar - Triana Pura']
+['Derek Taylor - Introduction - The Beatles']
+['Les Deux Guitares - Jean Ferret']
+['All Kind of People - Sugar Minott']
+["Two Ruffles & Flourishes / General's March - US Coast Guard Band"]
+['Ran Kan Kan - Nestor Torres']
+['Thank You Mama - The Jackson Southernaires']
+['Razamataz - Bruce BecVar']
+["So Danco Samba (Jazz 'N' Samba) (1997 Digital Remaster) - Wanda De Sah"]
+['Le R\xc3\xa9cit De Cassard - Maurice Larcange']
+
+Performing pre-filtering:
+Number of songs after prefiltering: 6610
+
+Recommended songs, after pre-filtering:
+
+['Second Time Around - Rickie Lee Jones']
+['Who Are You? - The Kitchen']
+['So What! - Tesla']
+['Song For Stephin Merritt - Kira']
+['Sugar Coated Sour - The Dillinger Escape Plan']
+['All Kind of People - Sugar Minott']
+['Estudio - Eduardo Fernandez']
+['Love Can Run Faster - Robert Palmer']
+['Into Battle - Ensiferum']
+["Mass No. 19 in D minor_ 'Requiem' K626: Lacrimosa - Patrizia Pace/Waltraud Meier/Frank Lopardo/James Morris/Swedish Radio Choir/Stockholm Chamber Choir/Berliner Philharmoniker/Riccardo Muti"]
+
+Performing post-filtering:
+
+Recommendend songs after post-filtering
+["Blowin' In the Wind - Ben Sidran"]
+['Last Night - Northern State']
+['Desperados - The Game']
+['Please Remember Me - B.B. King']
+['Saturday Night Special - Mars Ill']
+['Pass Me Not (LP Version) - Fernando Ortega']
+['Chanson R\xc3\xa9aliste - Acorps de Rue']
+['Dekh Le - Sunidhi Chauhan / Anu Malik / Jatin Sharma']
+["Mule Get Up In The Alley - Cannon's Jug Stompers"]
+['Leaving The Docks - Zbigniew Preisner']
+
+ Recommended songs after post-filtering the pre-filtered
+['Kalanta - Despina Vandi']
+['Shake Some Action - Cracker']
+['Fallin in Love Again - Ann Hampton Callaway']
+["My Mind's Eye - Small Faces"]
+["Skvoz' Tuman Vekov - Arkona"]
+['Good Girls_ Bad Guys - DMX / Dyme']
+['Cover To Cover - Wes King']
+['Girl From A Pawnshop - The Black Crowes']
+['Will Not Fade  (Hit Parade Album Version (new Song)) - Audio Adrenaline']
+['Aunque Tu Mami No Quiera - Grupo Sierra Maestra']
+
+

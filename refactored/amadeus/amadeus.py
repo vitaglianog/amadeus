@@ -96,12 +96,11 @@ def dist2prob(featureVector,clusters):
 		prob[idx]=p/total_prob;
 	return prob
 	
-def createModel(listenedSongs, centroids):
+def createModel(listenedFeatures, centroids):
 	model=Network('SongRecommender');
 		
 	#compute mean probabilities of listened songs
-	features=featureExtract(listenedSongs,0);
-	feat_row=numpy.transpose(features);	
+	feat_row=numpy.transpose(listenedFeatures);	
 	listenedProb=[];
 	mean_features=[];
 	for f in feat_row:
