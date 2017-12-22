@@ -279,6 +279,50 @@ def getContext():
 
     return [hour_day, week, season]
 
+def askContext():
+	correct=False;
+	while not correct:
+		print "Choose Context"
+		print "Time of the day:"
+		print "1. Morning"
+		print "2. Afternoon"
+		print "3. Evening"
+		print "4. Night"
+		
+		time_day = raw_input()	
+		if( (time_day =="1") or (time_day =="2") or (time_day =="3" ) or (time_day =="4")):
+			time_day = float(time_day)
+			correct=True;
+		else:
+			print "you have to write one of the number options"
+
+	correct=False;
+	while not correct:
+		print "Kind of week:"
+		print "1. Working"
+		print "2. Weekend"
+		print "3. Holiday"
+		week = raw_input()
+	
+		if( week == "1" or week =="2" or week =="3"):
+				week = float(week)
+				correct=True;
+		else:
+			print "you have to write one of the number options"
+	correct=False;
+	while not correct:
+		print "Season:"
+		print '1. Winter'
+		print '2. Spring'
+		print '3. Summer'
+		print '4. Autumn'
+		
+		season = raw_input()
+		if( season == "1" or season =="2" or season =="3" or season =="4"):
+				season = float(season)
+				correct=True;
+		else:
+			print "you have to write one of the number options"
 
 def norm(X):
     X_min = min( X )
