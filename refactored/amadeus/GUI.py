@@ -277,17 +277,16 @@ def step5(hour_day, week, season, features, utilities, songs):
     label5.pack()
 
 
-root = Tk()
+master = Tk()
 
-scrollbar = Scrollbar( root )
-scrollbar.pack( side=RIGHT, fill=Y )
+root = Canvas(master, width=200, height=200, borderwidth=0, highlightthickness=0)
+root.pack()
 
-mylist = Listbox( root, yscrollcommand=scrollbar.set )
-for line in range( 1000 ):
-    mylist.insert( END, str( line ))
+vbar = Scrollbar(root )
+vbar.pack( side=RIGHT, fill=Y )
 
-mylist.pack( side=LEFT, fill=BOTH )
-scrollbar.config( command=mylist.yview )
+vbar.config(command=root.xview)
+root.config(xscrollcommand=vbar.set)
 
 
 v = IntVar()
