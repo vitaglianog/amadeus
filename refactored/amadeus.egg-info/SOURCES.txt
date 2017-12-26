@@ -1,9 +1,0 @@
-README.rst
-setup.py
-amadeus.egg-info/PKG-INFO
-amadeus.egg-info/SOURCES.txt
-amadeus.egg-info/dependency_links.txt
-amadeus.egg-info/requires.txt
-amadeus.egg-info/top_level.txt
-bin/creation.py
-bin/recommendation.py

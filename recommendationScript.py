@@ -8,7 +8,7 @@ from sklearn.preprocessing import scale
 numpy.set_printoptions(suppress=True)
 
 ds_path='lib/cal500/data/';
-#numpy.savetxt('features.txt', features)
+
 lst=open(ds_path + "list.txt",'r') 
 rows = lst.readlines()
 lst.close;

@@ -7,24 +7,34 @@ A content-based music recommender system with time contextual pre and post filte
 Usage
 ===============
 
----------------------
-Dataset requirement:
-To run the recommendation, h5 files representing song features from the cal500 dataset (or the Million Song Dataset) should be placed in dataset/cal500/ (or dataset/mss/).
-If the cal500 dataset is chosen, uncomment line 12 and comment line 11 in creation.py and recommendation.py.
- 
---------------------
-First run:
-The configuration requires running a single time (for each dataset) the script creation.py.
+Setup
+------------------
+In order to install required dependencies, use the command:
+pip install -r requirements.txt
 
------------------------
-Recommendation sample:
-A sample recommendation can be obtained running the script recommendation.py, which will choose 10 random songs from the chosen dataset and print the recommendations in case no filtering, a prefiltering or a postfiltering are used. 
-The time context is, by default, extracted by the actual time information of the execution.
-In case further experimentation is desired, in the prefiltering and postfiltering functions of amadeus.py the line
-	[time_day,week,season]=getContext();
-	
-can be substituted with the commented
-	[time_day,week,season]=askContext();
+Usage (command line)
+-------------------
+Sample configuration: run "python recommendation.py"
+
+Changing parameters
+-------------------
+The file recommendation.py is a runnable script to obtain recommendations for three different playlists.
+To change the listened playlist, change the value of "playlist" variable in line 20:
+
+playlist= jazzSongs;
+
+One of the already defined three playlists can be used, or a new one can be defined being an array of integers ranging from 0-9999.
+
+The contextual information will be asked to the user.
+To change this behaviour and automatically get context, comment line 64 and uncomment line 65.
+To use a different dataset, the cal500, uncomment line 11 and comment line 12.
+To use different cluster centroids, change the name of the file in line 33 to one of the *centroids.pckl present in dataset/(chosen dataset)
+
+Creation phase:
+--------------------
+To reconfigure features and clusters, configuration requires running a single time (for each dataset) the scripts featureExtraction.py and clustering.py.
+To perform featureExtraction, h5 files representing song features from the cal500 dataset (or the Million Song Dataset) should be placed in dataset/cal500/ (or dataset/mss/).
+If the cal500 dataset is chosen, uncomment line 11 and comment line 12 in amadeus/featureExtraction.py and amadeus/clustering.py
 
 
 Dataset Copyrights
