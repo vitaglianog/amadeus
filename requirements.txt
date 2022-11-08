@@ -1,6 +1,6 @@
 tables==3.4.2
 six==1.11.0
-numpy==1.13.1
+numpy
 setuptools==36.7.1
 python_dateutil==2.7.3
 scikit_learn==0.19.1
