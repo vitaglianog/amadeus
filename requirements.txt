@@ -3,4 +3,4 @@ six==1.11.0
 numpy
 setuptools
 python_dateutil==2.7.3
-scikit_learn==0.19.1
+scikit_learn
